@@ -62,7 +62,7 @@ G.vx=0;  % starting x velocity
 G.vy=0;
 G.ax=0; %starting accelaration
 G.ay=-1.6; %moon's gravitational accelaration is 1.6 m/s
-G.fuel = 150;
+G.fuel = 200;
 G.dv=0.5;
 
 return
@@ -77,7 +77,7 @@ plot(stars, 'w.');
 G.ship= image(imresize(imread('spaceshipup5.png'),0.2));
 
 G.landx = linspace(0,G.xmax,1000);
-G.landy = 3+0.9.*sin(0.9.*G.landx.*rand()).*cos(G.landx.*rand().*0.2)
+G.landy = 3+0.9.*sin(1.72.*G.landx.*rand()).*cos(G.landx.*rand().*0.2)
 area(G.landx,G.landy, 'FaceColor', [0.4 0.4 0.5]);
 
 G.wx = (G.xmax-15)*rand()+5; %setting landing pad position
@@ -123,14 +123,14 @@ if G.firsttime == 1
 end
 % set the function that gets called when a key is pressed
 set(gcf,'WindowKeyPressFcn',@keyhandle);
-G.stattext_h = text(G.xmax-90,G.ymax, ' ', 'verticalalign', 'top');
+G.stattext_h = text(G.xmax-130,G.ymax, ' ', 'verticalalign', 'top');
 G.exit_text = text(0, G.ymax, ' ', 'verticalalign', 'top');
 return
 
 function update_game
 global G; global l;
 set(G.stattext_h, 'String', ...
-    sprintf('Fuel=%.0f Vy=%.1f Ay=%.1f', G.fuel, G.vy, G.ay), 'color', 'w'); %shows how much fuel is left and the speed of the craft
+    sprintf('Fuel=%.0f velocity=%.1f accelaration=%.1f', G.fuel, G.vy, G.ay), 'color', 'w'); %shows how much fuel is left and the speed of the craft
 set(G.exit_text, 'String', sprintf('Q = quit'), 'color', 'w');
 
 %ship wraps around if user goes all the way to the left/right side of the
@@ -148,10 +148,10 @@ if (G.user_y>G.ymax && G.vy>5)
  elseif (G.user_y<=(G.wy+1) && (G.user_x<G.wx-3 || G.user_x>G.wx+18))
         G.crash = text(45,G.ymax/2,'Boy, are you inept!', 'color', 'w', 'Fontsize', 16, 'FontWeight', 'bold')
         end_game()
- elseif (G.user_y<=(G.wy+10) && G.user_x>=(G.wx-3) && G.user_x<=(G.wx+18) && G.vy>=-6)
+ elseif (G.user_y<=(G.wy+6) && G.user_x>=(G.wx-3) && G.user_x<=(G.wx+18) && G.vy>=-6)
         G.win = text(60,G.ymax/2,'safe landing!', 'color', 'w', 'Fontsize', 16, 'FontWeight', 'bold')
         end_game()
-elseif (G.user_y<=(G.wy+10) && G.user_x>(G.wx-3) && G.user_x<(G.wx+18) && G.vy<-6)
+elseif (G.user_y<=(G.wy+6) && G.user_x>(G.wx-3) && G.user_x<(G.wx+18) && G.vy<-6)
         G.crash = text(45,G.ymax/2,'Boy, are you inept!', 'color', 'w', 'Fontsize', 16, 'FontWeight', 'bold')
         end_game()
 end
